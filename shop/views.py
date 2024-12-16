@@ -5,3 +5,15 @@ def index(request):
         "title": "Houme page",
     }
     return render(request,"shop/index.html",context)
+
+def about(request):
+    context={
+        'title':'about',
+    }
+    return render(request, "shop/about.html", context)
+
+def products(request):
+    context={
+        'title':'products',
+    }
+    return render(request, "shop/products.html", context)
