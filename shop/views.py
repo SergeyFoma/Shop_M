@@ -12,8 +12,4 @@ def about(request):
     }
     return render(request, "shop/about.html", context)
 
-def products(request):
-    context={
-        'title':'products',
-    }
-    return render(request, "shop/products.html", context)
+
