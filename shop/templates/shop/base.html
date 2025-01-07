@@ -15,16 +15,19 @@
     </div>
     <div class="sidebar">
         <div class="sideleft">
+            {% current_time as ct %}
+            <p>{{ct}}</p>
+
             {% tag_categorys as categorys %}
             {% for c in categorys %}
-                <a href="">{{c.name}}</a>
+                <a href="{% url 'goods_name:catalog' category_slug=c.slug %}">{{c.name}}</a>
             {% endfor %}
             
             {% block sideleft %}
             {% endblock %}
         </div>
         <div class="sidecenter">
-            base
+            
             {% block sidecenter %}
             {% endblock %}
         </div>

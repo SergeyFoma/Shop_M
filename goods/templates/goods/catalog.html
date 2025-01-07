@@ -1,47 +1,80 @@
 {% extends "shop/base.html" %}
-
-{%block header%}
-<h2>{{title}}</h2>
-{%endblock%}
+{% load goods_tags %}
 
 {% block sidecenter %}
+CATALOG
 
-    {% for p in page_obj %}
-        <h3>{{p.title}}</h3>
-        <p>{{p.description}}</p>
+<form action="{% if request.GET.q %}{% url 'goods_name:search' %}{% else %}{% url 'goods_name:catalog' category_slug  %}{% endif %}"method='get'>
+    <input type="checkbox"id='inp_check'name='on_sale'value='on'
+        {% if request.GET.on_sale == 'on' %}checked{% endif %}>
+    {% if request.GET.q %} 
+        <input type="hidden"name="q"value='{{request.GET.q}}'>
+    {% endif %}
+    <label for="inp_check">Товары по акции</label>
+
+    <input type="radio"id='radio1'name='order_by'value='default'
+        {% if not request.GET.order_by or request.GET.order_by == 'default' %}checked{% endif %}>
+    <label for="radio1">По умолчанию</label>
+
+    <input type="radio"id='radio2'name='order_by'value='price'
+        {% if request.GET.order_by == 'price' %}checked{% endif %}>
+    <label for="radio2">От дешёвых к дорогим</label>
+
+    <input type="radio"id='radio3'name='order_by'value='-price'
+        {% if request.GET.order_by == '-price' %}checked{% endif %}>
+    <label for="radio3">От дорогих к дешёвым</label>
+
+    <button type="submit">Применить</button>
+</form>
+
+<!--Search-->
+<form action="{% url 'goods_name:search' %}"role="search"method="get">
+    <input type="search"placeholder="Search"area-label="Search"id="search"name="q">
+    
+    <button type="submit">Поиск</button>
+</form>
+<br>
+<hr>
+<br>
+
+    {% for g in good %}
+        <p><a href="{% url 'goods_name:products' prod_slug=g.slug %}">{{g.title}}</a></p>
+        <p>{{g.discount}}</p>
+        <p>{{g.price}}</p>
+        <p>{{g.display_id}}</p>
+        <p>{{g.description}}</p>
     {% endfor %}
+<hr>
+    {%comment%}  Paginator {%endcomment%}
+    
 
-
-<!--Filtration-->
-
-
-{% comment %}
-pagination
-{% endcomment %}
 
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
             <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="{% if good.has_previous %}?{% change_params page=good.previous_page_number %}{%endif%}">previous</a>
         {% endif %}
 
-        {% for page in page_obj.paginator.page_range %}
-            {% if page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
-                {% if page == page_obj.number %}
-                    <b>{{page}}</b>
-                {% else %}
-                    <a href="?page={{page}}">{{page}}</a>
-                {% endif %}
         
+        {% for page in good.paginator.page_range %}
+
+        {% if page >= good.number|add:-2 and page <= good.number|add:2 %}
+            {% if page == good.number %}
+                {{page}}
+            {% else %}
+                <a href="?{% change_params page=page %}">{{page}}</a>
             {% endif %}
-            
+        {% endif %}
         {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% if good.has_next %}
+            <a href="?{% change_params page=good.next_page_number %}">next</a>
+            <a href="?{% change_params page=good.paginator.num_pages %}">last &raquo;</a>
         {% endif %}
     </span>
 </div>
+    
+
+
 {% endblock %}
