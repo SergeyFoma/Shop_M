@@ -137,3 +137,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+goods/templates/catalog_2.html
+fixtures/
+goods/views_2.py
+shop/static/img/
