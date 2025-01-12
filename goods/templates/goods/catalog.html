@@ -37,18 +37,41 @@ CATALOG
 <hr>
 <br>
 
+{% if request.GET.q %}
+<h3 class="mt-4">Результаты поиска по запросу {{ request.GET.q }}</h3>
+{% if not good %}
+    {% comment %}<link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">{% endcomment %}
+    <h2 class="mt-4">По запросу ничего не найдено</h2>
+{% endif %}
+{% endif %}
+
     {% for g in good %}
-        <p><a href="{% url 'goods_name:products' prod_slug=g.slug %}">{{g.title}}</a></p>
+        <p><a href="{% url 'goods_name:products' prod_slug=g.slug %}">
+            {% autoescape off %}
+                {% if g.headline %}
+                    {{ g.headline }}
+                {% else %}
+                    {{g.title}}
+                {% endif %}</a></p>
+            {% endautoescape %}
+
         <p>{{g.discount}}</p>
         <p>{{g.price}}</p>
         <p>{{g.display_id}}</p>
-        <p>{{g.description}}</p>
+
+        {% autoescape off %}
+            {% if g.bodyline %}
+                <p>Описание:--{{ g.bodyline|truncatechars:160 }}</p>
+            {% else %}
+                <p>Описание: {{g.description|truncatechars:160}}</p>
+            {% endif %}
+        {% endautoescape %}
     {% endfor %}
 <hr>
     {%comment%}  Paginator {%endcomment%}
     
 
-
+{% if good %}
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
@@ -74,6 +97,7 @@ CATALOG
         {% endif %}
     </span>
 </div>
+{% endif %}
     
 
 
