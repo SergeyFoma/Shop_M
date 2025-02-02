@@ -1,3 +1,16 @@
 {% if form.non_field_errors %}
     <p>ОШИБКА::---{{form.non_field_errors}}</p>
 {%endif%}
+
+{% if messages %}
+    {% for m in messages %}
+        {% if m.tags == 'success' %}
+            <h3>{{m}}</h3>
+        {% endif %}
+
+        {% if m.tags == 'warning' %}
+            {{m}}
+        {% endif %}
+
+    {% endfor %}
+{% endif %}

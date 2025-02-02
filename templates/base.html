@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="header">
+        {% include "includes/notifications.html" %}
         {% block header %}
         {% endblock %}
         <a href="{% url 'shop:index' %}">Главная</a>
@@ -27,6 +28,7 @@
             {% if user.is_admin or user.is_staff %}
                 <a href="{% url 'admin:index' %}">Админ панель</a>
             {% endif %}
+            
             <a href="{% url 'users:logout' %}">Выйти</a>
         {% endif %}
         

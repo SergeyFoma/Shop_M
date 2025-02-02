@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'django.contrib.postgres',
     "debug_toolbar",
+    'django_extensions',
 
     'shop.apps.ShopConfig',
     'goods.apps.GoodsConfig',
@@ -153,3 +154,4 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL='users.User'
+LOGIN_URL = "/users/login/"

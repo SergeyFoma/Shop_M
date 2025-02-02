@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block sidecenter %}
 
@@ -11,9 +12,9 @@
                     alt="Аватар пользователя" class="img-fluid rounded-circle"
                     style="max-width: 150px;">
             {% else %}
-                {%comment%}<img src="{% static "deps/images/baseavatar.jpg" %}"
+                <img src="{% static "img/banya1.jpg" %}"
                     alt="Аватар пользователя" class="img-fluid rounded-circle"
-                    style="max-width: 150px;">{%endcomment%}
+                    style="max-width: 150px;">
             {% endif %}
             <input type="file" class="form-control mt-3" id="id_image"
                 name='image'
