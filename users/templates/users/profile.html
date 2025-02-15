@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block sidecenter %}
+<h2>Корзина</h2>
+{% include "carts/includes/included_cart.html" %}
 
 <form action="{% url "users:profile" %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
